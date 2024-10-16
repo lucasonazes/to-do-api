@@ -1,4 +1,6 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using api.Models;
+
+var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
 app.Run();
