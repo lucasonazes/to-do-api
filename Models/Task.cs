@@ -9,5 +9,6 @@ public class Task()
     public DateTime? DueDate { get; set; }
     public bool Finished { get; set; } = false;
     public int UserId { get; set; }
+     public int TagId { get; set; }
     public int ProjectId { get; set; }
 }
