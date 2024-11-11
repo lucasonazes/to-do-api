@@ -19,9 +19,9 @@ app.MapPost("/api/users/register", ([FromBody] User user, [FromServices] AppData
 });
 
 // List users
-app.MapGet("/api/users/list", ([FromServices] AppDataContext ctx) => 
+app.MapGet("/api/users/list", async ([FromServices] AppDataContext ctx) => 
 {   
-    List<User> users = ctx.Users.ToList();
+    var users = await ctx.Users.Include(p => p.Tasks).ToListAsync();
 
     if (users.Count <= 0) {
         return Results.NotFound("Não há nenhum usuário cadastrado");
@@ -65,9 +65,13 @@ app.MapPost("/api/tasks/create", ([FromBody] api.Models.Task task, [FromServices
     if (task.UserId <= 0) return Results.BadRequest("Insira um Id de usuário válido");
 
     User? user = ctx.Users.Find(task.UserId);
+    Project? project = ctx.Projects.Find(task.ProjectId);
+    Tag? tag = ctx.Tags.Find(task.TagId);
 
     if (user == null) return Results.NotFound("Usuário não encontrado, verifique o Id");
-
+    if (project == null) return Results.NotFound("Projeto não encontrado, verifique o Id");
+    if (tag == null) return Results.NotFound("Tag não encontrada, verifique o Id");
+    
     ctx.Tasks.Add(task);
     ctx.SaveChanges();
 

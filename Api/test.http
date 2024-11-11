@@ -1,22 +1,25 @@
+@base_url = http://localhost:5000/api
+
 ### Testando se a aplicação está rodando
-GET http://localhost:5000
+GET http://localhost:5000/
 
 ### Listando os usuários
-GET http://localhost:5000/api/users/list
+GET {{base_url}}/users/list
 
 ### Listando as tarefas
-GET http://localhost:5000/api/tasks/list
+GET {{base_url}}/tasks/list
 
 ### Lista todas as Tags
-GET http://localhost:5000/api/tags/list
+GET {{base_url}}/tags/list
+
+### Lista todas as Tags
+GET {{base_url}}/projects/list
 
 ### Lista todos os projetos
-GET http://localhost:5000/api/projects/list 
-
-
+GET {{base_url}}/projects/list
 
 ### Criando um usuário
-POST http://localhost:5000/api/users/register
+POST {{base_url}}/users/register
 Content-Type: application/json
 
 {
@@ -26,18 +29,20 @@ Content-Type: application/json
 }
 
 ### Criando uma tarefa
-POST http://localhost:5000/api/tasks/create
+POST {{base_url}}/tasks/create
 Content-Type: application/json
 
 {
     "title": "Comprar Tomate",
     "description": "Ir no Condor comprar tomate",
     "dueDate": "2024-10-20",
-    "userId": 1
+    "userId": 1,
+    "projectId": 1,
+    "tagId": 1
 }
 
 ### Criando Tag 
-POST http://localhost:5000/api/tags/create
+POST {{base_url}}/tags/create
 Content-Type: application/json
 
 {
@@ -46,38 +51,28 @@ Content-Type: application/json
     "priority": "Alta"
 }
 
-### Cria um projeto
-POST http://localhost:5000/api/projects/create
+### Criando um projeto
+POST {{base_url}}/projects/create
 Content-Type: application/json
 
 {
-    "name": "Agenda pessoal de Outubro",
-    "description": "Tarefas do dia a dia",
-    "startDate": "2024-10-01",
-    "finalDate": "2024-10-31",
-    "userId": 1
+    "name": "Prioridade",
+    "description": "#00FF00",
+    "startDate": "2024-10-20",
+    "finalDate": "2024-11-20"
 }
 
-
-
-
 ### Deletando um usuário
-DELETE http://localhost:5000/api/users/delete/1
+DELETE {{base_url}}/users/delete/1
 
 ### Deletando uma tarefa
-DELETE http://localhost:5000/api/tasks/delete/1
+DELETE {{base_url}}/tasks/delete/1
 
 ### Deletando uma Tag 
-DELETE http://localhost:5000/api/tags/delete/1
-
-### Deletando uma Project
-DELETE http://localhost:5000/api/projects/delete/1
-
-
-
+DELETE {{base_url}}/tags/delete/1
 
 ### Atualiza uma User
-PUT http://localhost:5000/api/users/update/1
+PUT {{base_url}}/users/update/1
 Content-Type: application/json
 
 {
@@ -87,7 +82,7 @@ Content-Type: application/json
 }
 
 ### Atualiza uma Task
-PUT http://localhost:5000/api/tasks/update/1
+PUT {{base_url}}/tasks/update/1
 Content-Type: application/json
 
 {
@@ -98,22 +93,11 @@ Content-Type: application/json
 }
 
 ### Atualiza uma Tag 
-PUT http://localhost:5000/api/tags/update/1
+PUT {{base_url}}/tags/update/1
 Content-Type: application/json
 
 {
     "name": "Prioridade Atualizada",
     "color": "#FF0000",
     "priority": "Média"
-}
-
-### Atualiza o Projeto
-PUT http://localhost:5000/api/projects/update/1
-Content-Type: application/json
-
-{
-    "name": "Agenda pessoal de Novembro",
-    "description": "Coisas marcadas para o próximo mês",
-    "startDate": "2024-11-01",
-    "finalDate": "2024-11-30"
 }

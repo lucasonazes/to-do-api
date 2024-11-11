@@ -7,6 +7,5 @@ public class Project
     public string? Description { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime FinalDate { get; set; }
-
     public List<Task>? Tasks { get; set; } = new List<Task>();
 }

@@ -124,7 +124,7 @@ namespace api.Migrations
 
             modelBuilder.Entity("api.Models.Task", b =>
                 {
-                    b.HasOne("api.Models.Project", "Project")
+                    b.HasOne("api.Models.Project", null)
                         .WithMany("Tasks")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -135,8 +135,6 @@ namespace api.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("api.Models.Project", b =>
