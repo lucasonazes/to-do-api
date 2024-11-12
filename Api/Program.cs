@@ -5,6 +5,15 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDataContext>();
+
+builder.Services.AddCors(
+    options => options.AddPolicy("Total Acess",
+        configs => configs
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod())
+);
+
 var app = builder.Build();
 
 // Home Route - Test if the application is running
@@ -245,5 +254,5 @@ app.MapDelete("/api/projects/delete/{id}", async (int id, AppDataContext db) =>
     return Results.NoContent();
 });
 
-
+app.UseCors("Total Acess");
 app.Run();
