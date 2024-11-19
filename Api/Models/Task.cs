@@ -8,7 +8,7 @@ public class Task
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime? DueDate { get; set; }
     public bool Finished { get; set; } = false;
-    public int UserId { get; set; }
-    public int TagId { get; set; }
-    public int ProjectId { get; set; }
+    public User? User { get; set; }
+    public Tag? Tag { get; set; }
+    public Project? Project { get; set; }
 }

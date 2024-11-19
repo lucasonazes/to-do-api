@@ -3,5 +3,5 @@
 ## Para reiniciar o banco de dados após realizar uma alteração nos models, siga esses passos:
 
 - Entre na pasta do projeto
-- Rode o comando "dotnet ef migrations add nomeDaMigração"
+- Rode o comando "dotnet ef migrations add initialCreate"
 - Rode o comando "dotnet ef database update"
