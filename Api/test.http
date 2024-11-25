@@ -29,7 +29,7 @@ Content-Type: application/json
 }
 
 ### Criando uma tarefa
-POST {{base_url}}/api/tasks/create
+POST {{base_url}}/tasks/create
 Content-Type: application/json
 
 {
@@ -37,6 +37,12 @@ Content-Type: application/json
     "description": "Ir no Condor comprar tomate",
     "dueDate": "2024-10-20",
     "user": {
+        "id": 1
+    },
+    "tag": {
+        "id": 1
+    },
+    "project": {
         "id": 1
     }
 }
@@ -82,7 +88,7 @@ Content-Type: application/json
 }
 
 ### Atualiza uma Task
-PUT {{base_url}}/api/tasks/update/1
+PUT {{base_url}}/tasks/update/1
 Content-Type: application/json
 
 {

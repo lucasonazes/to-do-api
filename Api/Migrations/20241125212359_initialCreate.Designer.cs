@@ -11,7 +11,7 @@ using api.Models;
 namespace api.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    [Migration("20241119002543_initialCreate")]
+    [Migration("20241125212359_initialCreate")]
     partial class initialCreate
     {
         /// <inheritdoc />
@@ -130,7 +130,7 @@ namespace api.Migrations
             modelBuilder.Entity("api.Models.Task", b =>
                 {
                     b.HasOne("api.Models.Project", "Project")
-                        .WithMany("Tasks")
+                        .WithMany()
                         .HasForeignKey("ProjectId");
 
                     b.HasOne("api.Models.Tag", "Tag")
@@ -138,7 +138,7 @@ namespace api.Migrations
                         .HasForeignKey("TagId");
 
                     b.HasOne("api.Models.User", "User")
-                        .WithMany("Tasks")
+                        .WithMany()
                         .HasForeignKey("UserId");
 
                     b.Navigation("Project");
@@ -146,16 +146,6 @@ namespace api.Migrations
                     b.Navigation("Tag");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("api.Models.Project", b =>
-                {
-                    b.Navigation("Tasks");
-                });
-
-            modelBuilder.Entity("api.Models.User", b =>
-                {
-                    b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618
         }

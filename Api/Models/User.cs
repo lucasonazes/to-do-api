@@ -7,5 +7,4 @@ public class User
     public string? Email { get; set; }
     public string? Password { get; set; }
     public DateTime RegisteredIn { get; set; } = DateTime.Now;
-    public List<Task>? Tasks { get; set; } = new List<Task>();
 }

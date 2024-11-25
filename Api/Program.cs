@@ -30,7 +30,7 @@ app.MapPost("/api/users/register", ([FromBody] User user, [FromServices] AppData
 // List users
 app.MapGet("/api/users/list", async ([FromServices] AppDataContext ctx) =>
 {
-    var users = await ctx.Users.Include(p => p.Tasks).ToListAsync();
+    var users = await ctx.Users.ToListAsync();
 
     if (users.Count <= 0)
     {
@@ -74,27 +74,18 @@ app.MapDelete("/api/users/delete/{id}", ([FromServices] AppDataContext ctx, int 
 // Create tasks
 app.MapPost("/api/tasks/create", async ([FromBody] api.Models.Task task, [FromServices] AppDataContext ctx) =>
 {
-    // Verificar se as entidades relacionadas foram passadas corretamente
-    if (task.User == null) return Results.BadRequest("Usuário não pode ser nulo.");
-    if (task.Project == null) return Results.BadRequest("Projeto não pode ser nulo.");
-    if (task.Tag == null) return Results.BadRequest("Tag não pode ser nula.");
+    User? user = await ctx.Users.FindAsync(task.User?.Id);
+    Project? project = await ctx.Projects.FindAsync(task.Project?.Id);
+    Tag? tag = await ctx.Tags.FindAsync(task.Tag?.Id);
 
-    // Carregar as entidades relacionadas com base no ID, caso necessário (não usando mais UserId, TagId e ProjectId)
-    User? user = await ctx.Users.FindAsync(task.User.Id);   // Agora acessamos o ID do User dentro da entidade User
-    Project? project = await ctx.Projects.FindAsync(task.Project.Id);
-    Tag? tag = await ctx.Tags.FindAsync(task.Tag.Id);
-
-    // Verificar se as entidades realmente existem
     if (user == null) return Results.NotFound("Usuário não encontrado.");
     if (project == null) return Results.NotFound("Projeto não encontrado.");
     if (tag == null) return Results.NotFound("Tag não encontrada.");
 
-    // Associar as entidades à tarefa (já feitas no modelo, só validamos)
     task.User = user;
     task.Project = project;
     task.Tag = tag;
 
-    // Adicionar a tarefa ao contexto e salvar
     ctx.Tasks.Add(task);
     await ctx.SaveChangesAsync();
 
@@ -240,7 +231,7 @@ app.MapPost("/api/projects/create", async (Project project, AppDataContext db) =
 // Listar Projetos
 app.MapGet("/api/projects/list", async (AppDataContext db) =>
 {
-    var projects = await db.Projects.Include(p => p.Tasks).ToListAsync();
+    var projects = await db.Projects.ToListAsync();
 
     if (projects.Count <= 0)
     {
