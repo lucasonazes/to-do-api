@@ -2386,11 +2386,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lucas.f\\Documents\\to-do\\Api\\api.csproj",
+      "projectUniqueName": "C:\\Users\\lucas.f\\Documents\\to-do-api\\Api\\api.csproj",
       "projectName": "api",
-      "projectPath": "C:\\Users\\lucas.f\\Documents\\to-do\\Api\\api.csproj",
+      "projectPath": "C:\\Users\\lucas.f\\Documents\\to-do-api\\Api\\api.csproj",
       "packagesPath": "C:\\Users\\lucas.f\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lucas.f\\Documents\\to-do\\Api\\obj\\",
+      "outputPath": "C:\\Users\\lucas.f\\Documents\\to-do-api\\Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\lucas.f\\AppData\\Roaming\\NuGet\\NuGet.Config"

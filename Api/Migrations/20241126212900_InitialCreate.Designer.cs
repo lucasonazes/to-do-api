@@ -11,8 +11,8 @@ using api.Models;
 namespace api.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    [Migration("20241125212359_initialCreate")]
-    partial class initialCreate
+    [Migration("20241126212900_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,11 +78,12 @@ namespace api.Migrations
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("Finished")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int?>("ProjectId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("TagId")
                         .HasColumnType("INTEGER");

@@ -124,7 +124,7 @@ app.MapPut("/api/tasks/update/{id}", async (int id, [FromBody] api.Models.Task u
     task.Title = updatedTask.Title ?? task.Title;
     task.Description = updatedTask.Description ?? task.Description;
     task.DueDate = updatedTask.DueDate ?? task.DueDate;
-    task.Finished = updatedTask.Finished;
+    task.Status = updatedTask.Status;
 
     // Atualizar entidades relacionadas, se necessário
     if (updatedTask.User != null) task.User = updatedTask.User;

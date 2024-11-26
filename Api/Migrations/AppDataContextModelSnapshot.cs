@@ -75,11 +75,12 @@ namespace api.Migrations
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("Finished")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int?>("ProjectId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("TagId")
                         .HasColumnType("INTEGER");
