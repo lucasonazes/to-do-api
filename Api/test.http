@@ -3,81 +3,27 @@
 ### Testando se a aplicação está rodando
 GET http://localhost:5000/
 
+
+
+
+##########################
+####### USUÁRIOS #########
+##########################
+
 ### Listando os usuários
 GET {{base_url}}/users/list
-
-### Listando as tarefas
-GET {{base_url}}/tasks/list
-
-### Lista todas as Tags
-GET {{base_url}}/tags/list
-
-### Lista todas as Tags
-GET {{base_url}}/projects/list
-
-### Lista todos os projetos
-GET {{base_url}}/projects/list
 
 ### Criando um usuário
 POST {{base_url}}/users/register
 Content-Type: application/json
 
 {
-    "name": "Lucas",
-    "email": "lucas@gmail.com",
+    "name": "Tiago",
+    "email": "tiago@gmail.com",
     "password": "12345"
 }
 
-### Criando uma tarefa
-POST {{base_url}}/tasks/create
-Content-Type: application/json
-
-{
-    "title": "Comprar Tomate",
-    "description": "Ir no Condor comprar tomate",
-    "dueDate": "2024-10-20",
-    "user": {
-        "id": 1
-    },
-    "tag": {
-        "id": 1
-    },
-    "project": {
-        "id": 1
-    }
-}
-
-### Criando Tag 
-POST {{base_url}}/tags/create
-Content-Type: application/json
-
-{
-    "name": "Prioridade",
-    "color": "#00FF00",
-    "priority": "Alta"
-}
-
-### Criando um projeto
-POST {{base_url}}/projects/create
-Content-Type: application/json
-
-{
-    "name": "Prioridade",
-    "description": "#00FF00",
-    "startDate": "2024-10-20",
-    "finalDate": "2024-11-20"
-}
-
-### Deletando um usuário
-DELETE {{base_url}}/users/delete/1
-
-### Deletando uma tarefa
-DELETE {{base_url}}/tasks/delete/1
-
-### Deletando uma Tag 
-DELETE {{base_url}}/tags/delete/1
-
-### Atualiza uma User
+### Atualiza um usuário
 PUT {{base_url}}/users/update/1
 Content-Type: application/json
 
@@ -87,24 +33,82 @@ Content-Type: application/json
     "password": "54321"
 }
 
-### Atualiza uma Task
-PUT {{base_url}}/tasks/update/1
+### Deletando um usuário
+DELETE {{base_url}}/users/delete/1
+
+
+
+
+
+
+##########################
+####### TAREFAS ##########
+##########################
+
+### Listando as tarefas
+GET {{base_url}}/tasks/list
+
+### Criando uma tarefa
+POST {{base_url}}/tasks/create
 Content-Type: application/json
 
 {
-    "title": "Fut sexta",
-    "description": "Fut com a galera da firma",
-    "dueDate": "2024-10-25",
-    "finished": true,
+    "title": "Criar endpoints",
+    "description": "Utilizar material de aula",
+    "dueDate": "2024-11-20",
     "user": {
-        "id": 1
-    },
-    "project": {
-        "id": 1
+        "id": 2
     },
     "tag": {
-        "id": 1
+        "id": 2
+    },
+    "project": {
+        "id": 2
     }
+}
+
+### Atualiza uma Task
+PUT {{base_url}}/tasks/update/2
+Content-Type: application/json
+
+{
+    "title": "Tarefa atualizada",
+    "description": "Descrição atualizada",
+    "dueDate": "2024-10-30",
+    "finished": true,
+    "user": {
+        "id": 2
+    },
+    "project": {
+        "id": 2
+    },
+    "tag": {
+        "id": 2
+    }
+}
+
+### Deletando uma tarefa
+DELETE {{base_url}}/tasks/delete/1
+
+
+
+
+
+##########################
+######### TAGS ###########
+##########################
+
+### Lista todas as Tags
+GET {{base_url}}/tags/list
+
+### Cria Tag 
+POST {{base_url}}/tags/create
+Content-Type: application/json
+
+{
+    "name": "Faculdade",
+    "color": "#00FF00",
+    "priority": "Alta"
 }
 
 ### Atualiza uma Tag 
@@ -112,7 +116,46 @@ PUT {{base_url}}/tags/update/1
 Content-Type: application/json
 
 {
-    "name": "Prioridade Atualizada",
+    "name": "Tag Atualizada",
     "color": "#FF0000",
     "priority": "Média"
 }
+
+### Deleta uma Tag 
+DELETE {{base_url}}/tags/delete/1
+
+
+
+
+
+##########################
+####### PROJETOS #########
+##########################
+
+### Lista todos os projetos
+GET {{base_url}}/projects/list
+
+### Cria um projeto
+POST {{base_url}}/projects/create
+Content-Type: application/json
+
+{
+    "name": "Desenvolvimento Web",
+    "description": "#00FF00",
+    "startDate": "2024-10-20",
+    "finalDate": "2024-11-20"
+}
+
+### Atualiza um Projeto 
+PUT {{base_url}}/projects/update/1
+Content-Type: application/json
+
+{
+    "name": "Projeto Atualizado",
+    "description": "#00FF00",
+    "startDate": "2024-10-30",
+    "finalDate": "2024-11-50"
+}
+
+### Deleta um Projeto
+DELETE {{base_url}}/projects/delete/1
