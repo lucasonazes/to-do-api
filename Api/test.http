@@ -57,7 +57,7 @@ Content-Type: application/json
     "description": "Utilizar material de aula",
     "dueDate": "2024-11-20",
     "user": {
-        "id": 2
+        "id": 1
     },
     "tag": {
         "id": 2
@@ -106,8 +106,8 @@ POST {{base_url}}/tags/create
 Content-Type: application/json
 
 {
-    "name": "Faculdade",
-    "color": "#00FF00",
+    "name": "Trabalho",
+    "color": "#FFA500",
     "priority": "Alta"
 }
 
@@ -141,7 +141,7 @@ Content-Type: application/json
 
 {
     "name": "Desenvolvimento Web",
-    "description": "#00FF00",
+    "description": "Professor Diogo",
     "startDate": "2024-10-20",
     "finalDate": "2024-11-20"
 }
@@ -152,7 +152,7 @@ Content-Type: application/json
 
 {
     "name": "Projeto Atualizado",
-    "description": "#00FF00",
+    "description": "Descrição atualizada",
     "startDate": "2024-10-30",
     "finalDate": "2024-11-50"
 }

@@ -11,8 +11,8 @@ using api.Models;
 namespace api.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    [Migration("20241126212900_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241127204512_initialCreate")]
+    partial class initialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
