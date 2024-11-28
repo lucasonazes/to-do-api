@@ -4,49 +4,15 @@
 GET http://localhost:5000/
 
 
-
-
-##########################
-####### USUÁRIOS #########
-##########################
-
-### Listando os usuários
-GET {{base_url}}/users/list
-
-### Criando um usuário
-POST {{base_url}}/users/register
-Content-Type: application/json
-
-{
-    "name": "Tiago",
-    "email": "tiago@gmail.com",
-    "password": "12345"
-}
-
-### Atualiza um usuário
-PUT {{base_url}}/users/update/1
-Content-Type: application/json
-
-{
-    "name": "Thiago Tinfre Marcelino",
-    "email": "thiagotinfre@hotmail.com",
-    "password": "54321"
-}
-
-### Deletando um usuário
-DELETE {{base_url}}/users/delete/1
-
-
-
-
-
-
 ##########################
 ####### TAREFAS ##########
 ##########################
 
 ### Listando as tarefas
 GET {{base_url}}/tasks/list
+
+### Procura uma tarefa
+GET {{base_url}}/tasks/5
 
 ### Criando uma tarefa
 POST {{base_url}}/tasks/create
@@ -89,6 +55,44 @@ Content-Type: application/json
 
 ### Deletando uma tarefa
 DELETE {{base_url}}/tasks/delete/1
+
+
+
+
+
+
+
+
+##########################
+####### USUÁRIOS #########
+##########################
+
+### Listando os usuários
+GET {{base_url}}/users/list
+
+### Criando um usuário
+POST {{base_url}}/users/register
+Content-Type: application/json
+
+{
+    "name": "Lucas",
+    "email": "lucas@gmail.com",
+    "password": "12345"
+}
+
+### Atualiza um usuário
+PUT {{base_url}}/users/update/1
+Content-Type: application/json
+
+{
+    "name": "Thiago Tinfre Marcelino",
+    "email": "thiagotinfre@hotmail.com",
+    "password": "54321"
+}
+
+### Deletando um usuário
+DELETE {{base_url}}/users/delete/1
+
 
 
 
@@ -140,8 +144,8 @@ POST {{base_url}}/projects/create
 Content-Type: application/json
 
 {
-    "name": "Desenvolvimento Web",
-    "description": "Professor Diogo",
+    "name": "Hardware",
+    "description": "Professor Xiscatti",
     "startDate": "2024-10-20",
     "finalDate": "2024-11-20"
 }

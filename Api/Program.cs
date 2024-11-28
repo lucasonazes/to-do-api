@@ -19,6 +19,125 @@ var app = builder.Build();
 // Home Route - Test if the application is running
 app.MapGet("/", () => "API de Lista de Tarefas");
 
+
+// #####################################
+// #######       TASKS        ##########
+// #####################################
+
+// Create tasks
+app.MapPost("/api/tasks/create", async ([FromBody] api.Models.Task task, [FromServices] AppDataContext ctx) =>
+{
+    User? user = await ctx.Users.FindAsync(task.User?.Id);
+    Project? project = await ctx.Projects.FindAsync(task.Project?.Id);
+    Tag? tag = await ctx.Tags.FindAsync(task.Tag?.Id);
+
+    if (user == null) return Results.NotFound("Usuário não encontrado.");
+    if (project == null) return Results.NotFound("Projeto não encontrado.");
+    if (tag == null) return Results.NotFound("Tag não encontrada.");
+
+    task.User = user;
+    task.Project = project;
+    task.Tag = tag;
+    task.Status = "Pendente";
+
+    ctx.Tasks.Add(task);
+    await ctx.SaveChangesAsync();
+
+    return Results.Created("/api/tasks/list", task);
+});
+
+// List Tasks
+app.MapGet("/api/tasks/list", async ([FromServices] AppDataContext ctx) =>
+{
+    var tasks = await ctx.Tasks
+        .Include(t => t.User)
+        .Include(t => t.Tag)
+        .Include(t => t.Project)
+        .ToListAsync();
+
+    if (tasks.Count <= 0)
+    {
+        return Results.NotFound("Não há nenhuma tarefa criada");
+    }
+
+    return Results.Ok(tasks);
+});
+
+// Search Task
+app.MapGet("/api/tasks/{id}", async (int id, [FromServices] AppDataContext ctx) =>
+{
+    var task = await ctx.Tasks
+        .Include(t => t.User)
+        .Include(t => t.Tag)
+        .Include(t => t.Project)
+        .FirstOrDefaultAsync(t => t.Id == id);
+
+    if (task == null) return Results.NotFound("Tarefa não encontrada");
+
+    return Results.Ok(task);
+});
+
+// Update Task
+app.MapPut("/api/tasks/update/{id}", async (int id, [FromBody] api.Models.Task updatedTask, [FromServices] AppDataContext ctx) =>
+{
+    var task = await ctx.Tasks
+        .Include(t => t.User)
+        .Include(t => t.Project)
+        .Include(t => t.Tag)
+        .FirstOrDefaultAsync(t => t.Id == id);
+
+    if (task == null) return Results.NotFound("Tarefa não encontrada.");
+
+    task.Title = updatedTask.Title ?? task.Title;
+    task.Description = updatedTask.Description ?? task.Description;
+    task.DueDate = updatedTask.DueDate ?? task.DueDate;
+    task.Status = updatedTask.Status ?? task.Status;
+
+    if (updatedTask.User != null && updatedTask.User.Id > 0)
+    {
+        var user = await ctx.Users.FindAsync(updatedTask.User.Id);
+        if (user == null) return Results.BadRequest("Usuário não encontrado.");
+        task.User = user;
+    }
+
+    if (updatedTask.Project != null && updatedTask.Project.Id > 0)
+    {
+        var project = await ctx.Projects.FindAsync(updatedTask.Project.Id);
+        if (project == null) return Results.BadRequest("Projeto não encontrado.");
+        task.Project = project;
+    }
+
+    if (updatedTask.Tag != null && updatedTask.Tag.Id > 0)
+    {
+        var tag = await ctx.Tags.FindAsync(updatedTask.Tag.Id);
+        if (tag == null) return Results.BadRequest("Tag não encontrada.");
+        task.Tag = tag;
+    }
+
+    await ctx.SaveChangesAsync();
+
+    return Results.Ok(task);
+});
+
+// Delete Task
+app.MapDelete("/api/tasks/delete/{id}", async (int id, [FromServices] AppDataContext ctx) =>
+{
+    var task = await ctx.Tasks.FindAsync(id);
+
+    if (task == null) return Results.NotFound("Tarefa não encontrada.");
+
+    ctx.Tasks.Remove(task);
+    await ctx.SaveChangesAsync();
+
+    return Results.Ok("Tarefa excluída");
+});
+
+
+
+// #####################################
+// #########     USERS         #########
+// #####################################
+
 // Create Users
 app.MapPost("/api/users/register", ([FromBody] User user, [FromServices] AppDataContext ctx) =>
 {
@@ -71,100 +190,12 @@ app.MapDelete("/api/users/delete/{id}", ([FromServices] AppDataContext ctx, int 
     return Results.Ok("Usuário excluído");
 });
 
-// Create tasks
-app.MapPost("/api/tasks/create", async ([FromBody] api.Models.Task task, [FromServices] AppDataContext ctx) =>
-{
-    User? user = await ctx.Users.FindAsync(task.User?.Id);
-    Project? project = await ctx.Projects.FindAsync(task.Project?.Id);
-    Tag? tag = await ctx.Tags.FindAsync(task.Tag?.Id);
-
-    if (user == null) return Results.NotFound("Usuário não encontrado.");
-    if (project == null) return Results.NotFound("Projeto não encontrado.");
-    if (tag == null) return Results.NotFound("Tag não encontrada.");
-
-    task.User = user;
-    task.Project = project;
-    task.Tag = tag;
-    task.Status = "Não iniciada";
-
-    ctx.Tasks.Add(task);
-    await ctx.SaveChangesAsync();
-
-    return Results.Created("/api/tasks/list", task);
-});
-
-// List Tasks
-app.MapGet("/api/tasks/list", async ([FromServices] AppDataContext ctx) =>
-{
-    var tasks = await ctx.Tasks
-        .Include(t => t.User)     // Incluir o User associado
-        .Include(t => t.Tag)      // Incluir o Tag associado
-        .Include(t => t.Project)  // Incluir o Project associado
-        .ToListAsync();
-
-    if (tasks.Count <= 0)
-    {
-        return Results.NotFound("Não há nenhuma tarefa criada");
-    }
-
-    return Results.Ok(tasks);
-});
-
-// Update Task
-app.MapPut("/api/tasks/update/{id}", async (int id, [FromBody] api.Models.Task updatedTask, [FromServices] AppDataContext ctx) =>
-{
-    var task = await ctx.Tasks
-        .Include(t => t.User)
-        .Include(t => t.Project)
-        .Include(t => t.Tag)
-        .FirstOrDefaultAsync(t => t.Id == id);
-
-    if (task == null) return Results.NotFound("Tarefa não encontrada.");
-
-    task.Title = updatedTask.Title ?? task.Title;
-    task.Description = updatedTask.Description ?? task.Description;
-    task.DueDate = updatedTask.DueDate ?? task.DueDate;
-    task.Status = updatedTask.Status ?? task.Status;
-
-    if (updatedTask.User != null && updatedTask.User.Id > 0)
-    {
-        var user = await ctx.Users.FindAsync(updatedTask.User.Id);
-        if (user == null) return Results.BadRequest("Usuário não encontrado.");
-        task.User = user;
-    }
-
-    if (updatedTask.Project != null && updatedTask.Project.Id > 0)
-    {
-        var project = await ctx.Projects.FindAsync(updatedTask.Project.Id);
-        if (project == null) return Results.BadRequest("Projeto não encontrado.");
-        task.Project = project;
-    }
-
-    if (updatedTask.Tag != null && updatedTask.Tag.Id > 0)
-    {
-        var tag = await ctx.Tags.FindAsync(updatedTask.Tag.Id);
-        if (tag == null) return Results.BadRequest("Tag não encontrada.");
-        task.Tag = tag;
-    }
-
-    await ctx.SaveChangesAsync();
-
-    return Results.Ok(task);
-});
 
 
-// Delete Task
-app.MapDelete("/api/tasks/delete/{id}", async (int id, [FromServices] AppDataContext ctx) =>
-{
-    var task = await ctx.Tasks.FindAsync(id);
 
-    if (task == null) return Results.NotFound("Tarefa não encontrada.");
-
-    ctx.Tasks.Remove(task);
-    await ctx.SaveChangesAsync();
-
-    return Results.Ok("Tarefa excluída");
-});
+// #####################################
+// ##########     TAGS         #########
+// #####################################
 
 // Create Tag
 app.MapPost("/api/tags/create", ([FromBody] Tag tag, [FromServices] AppDataContext ctx) =>
@@ -224,6 +255,11 @@ app.MapDelete("/api/tags/delete/{id}", async (int id, [FromServices] AppDataCont
     return Results.Ok("Tag excluída");
 });
 
+
+
+// #####################################
+// #########     PROJECTS      #########
+// #####################################
 
 // Creat Project 
 app.MapPost("/api/projects/create", async (Project project, AppDataContext db) =>
