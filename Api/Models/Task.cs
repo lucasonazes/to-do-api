@@ -7,7 +7,7 @@ public class Task
     public string? Description { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime? DueDate { get; set; }
-    public string Status { get; set; } = "Não iniciada";
+    public string? Status { get; set; }
     public User? User { get; set; }
     public Tag? Tag { get; set; }
     public Project? Project { get; set; }

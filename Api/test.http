@@ -68,21 +68,21 @@ Content-Type: application/json
 }
 
 ### Atualiza uma Task
-PUT {{base_url}}/tasks/update/2
+PUT {{base_url}}/tasks/update/1
 Content-Type: application/json
 
 {
-    "title": "Tarefa atualizada",
+    "title": "Tarefa atualizada 6",
     "description": "Descrição atualizada",
     "dueDate": "2024-10-30",
-    "finished": true,
+    "status": "Em andamento",
     "user": {
+        "id": 1
+    },
+    "tag": {
         "id": 2
     },
     "project": {
-        "id": 2
-    },
-    "tag": {
         "id": 2
     }
 }

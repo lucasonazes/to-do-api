@@ -85,6 +85,7 @@ app.MapPost("/api/tasks/create", async ([FromBody] api.Models.Task task, [FromSe
     task.User = user;
     task.Project = project;
     task.Tag = tag;
+    task.Status = "Não iniciada";
 
     ctx.Tasks.Add(task);
     await ctx.SaveChangesAsync();
@@ -113,29 +114,44 @@ app.MapGet("/api/tasks/list", async ([FromServices] AppDataContext ctx) =>
 app.MapPut("/api/tasks/update/{id}", async (int id, [FromBody] api.Models.Task updatedTask, [FromServices] AppDataContext ctx) =>
 {
     var task = await ctx.Tasks
-        .Include(t => t.User)     // Carregar as entidades relacionadas
+        .Include(t => t.User)
         .Include(t => t.Project)
         .Include(t => t.Tag)
         .FirstOrDefaultAsync(t => t.Id == id);
 
     if (task == null) return Results.NotFound("Tarefa não encontrada.");
 
-    // Atualizar os valores da tarefa
     task.Title = updatedTask.Title ?? task.Title;
     task.Description = updatedTask.Description ?? task.Description;
     task.DueDate = updatedTask.DueDate ?? task.DueDate;
-    task.Status = updatedTask.Status;
+    task.Status = updatedTask.Status ?? task.Status;
 
-    // Atualizar entidades relacionadas, se necessário
-    if (updatedTask.User != null) task.User = updatedTask.User;
-    if (updatedTask.Project != null) task.Project = updatedTask.Project;
-    if (updatedTask.Tag != null) task.Tag = updatedTask.Tag;
+    if (updatedTask.User != null && updatedTask.User.Id > 0)
+    {
+        var user = await ctx.Users.FindAsync(updatedTask.User.Id);
+        if (user == null) return Results.BadRequest("Usuário não encontrado.");
+        task.User = user;
+    }
 
-    // Salvar as alterações
+    if (updatedTask.Project != null && updatedTask.Project.Id > 0)
+    {
+        var project = await ctx.Projects.FindAsync(updatedTask.Project.Id);
+        if (project == null) return Results.BadRequest("Projeto não encontrado.");
+        task.Project = project;
+    }
+
+    if (updatedTask.Tag != null && updatedTask.Tag.Id > 0)
+    {
+        var tag = await ctx.Tags.FindAsync(updatedTask.Tag.Id);
+        if (tag == null) return Results.BadRequest("Tag não encontrada.");
+        task.Tag = tag;
+    }
+
     await ctx.SaveChangesAsync();
 
-    return Results.Ok("Tarefa atualizada.");
+    return Results.Ok(task);
 });
+
 
 // Delete Task
 app.MapDelete("/api/tasks/delete/{id}", async (int id, [FromServices] AppDataContext ctx) =>
