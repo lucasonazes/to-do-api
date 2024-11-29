@@ -11,7 +11,7 @@ using api.Models;
 namespace api.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    [Migration("20241127204512_initialCreate")]
+    [Migration("20241129181225_initialCreate")]
     partial class initialCreate
     {
         /// <inheritdoc />
@@ -82,7 +82,6 @@ namespace api.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("TagId")

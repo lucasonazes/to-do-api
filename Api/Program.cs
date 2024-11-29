@@ -174,6 +174,19 @@ app.MapPut("/api/users/update/{id}", async (int id, [FromBody] User updatedUser,
     return Results.Ok("Usuário atualizado.");
 });
 
+// Search User
+app.MapGet("/api/users/{id}", async (int id, [FromServices] AppDataContext ctx) =>
+{
+    var user = await ctx.Users 
+    .FirstOrDefaultAsync(u => u.Id == id);  // Agora, a busca é feita pela tabela 'Users'
+
+    if (user == null) return Results.NotFound("Usuário não encontrado");
+
+    return Results.Ok(user);  // Retorna o usuário encontrado
+});
+
+
+
 // Delete User
 app.MapDelete("/api/users/delete/{id}", ([FromServices] AppDataContext ctx, int id) =>
 {

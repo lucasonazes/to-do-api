@@ -68,7 +68,7 @@ namespace api.Migrations
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     DueDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    Status = table.Column<string>(type: "TEXT", nullable: false),
+                    Status = table.Column<string>(type: "TEXT", nullable: true),
                     UserId = table.Column<int>(type: "INTEGER", nullable: true),
                     TagId = table.Column<int>(type: "INTEGER", nullable: true),
                     ProjectId = table.Column<int>(type: "INTEGER", nullable: true)
