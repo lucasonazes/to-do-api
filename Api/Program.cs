@@ -178,11 +178,11 @@ app.MapPut("/api/users/update/{id}", async (int id, [FromBody] User updatedUser,
 app.MapGet("/api/users/{id}", async (int id, [FromServices] AppDataContext ctx) =>
 {
     var user = await ctx.Users 
-    .FirstOrDefaultAsync(u => u.Id == id);  // Agora, a busca é feita pela tabela 'Users'
+    .FirstOrDefaultAsync(u => u.Id == id); 
 
     if (user == null) return Results.NotFound("Usuário não encontrado");
 
-    return Results.Ok(user);  // Retorna o usuário encontrado
+    return Results.Ok(user);  
 });
 
 
@@ -254,6 +254,16 @@ app.MapPut("/api/tags/update/{id}", async (int id, [FromBody] Tag updatedTag, [F
     return Results.Ok("tag atualizada."); // Retorna a tag atualizada
 });
 
+// Search Tags
+app.MapGet("/api/tags/{id}", async (int id, [FromServices] AppDataContext ctx) =>
+{
+    var tag = await ctx.Tags 
+    .FirstOrDefaultAsync(u => u.Id == id);  
+
+    if (tag == null) return Results.NotFound("Tag não encontrada");
+
+    return Results.Ok(tag);  
+});
 
 // Delete Tag
 app.MapDelete("/api/tags/delete/{id}", async (int id, [FromServices] AppDataContext ctx) =>
@@ -323,6 +333,17 @@ app.MapPut("/api/projects/update/{id}", async (int id, Project updatedProject, A
     await db.SaveChangesAsync();
 
     return Results.Ok(project);
+});
+
+// Search Project
+app.MapGet("/api/projects/{id}", async (int id, [FromServices] AppDataContext ctx) =>
+{
+    var project = await ctx.Projects
+    .FirstOrDefaultAsync(u => u.Id == id);  
+
+    if (project == null) return Results.NotFound("Projeto não encontrado");
+
+    return Results.Ok(project);  
 });
 
 // Delete Project
