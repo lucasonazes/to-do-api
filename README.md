@@ -1,1 +1,1 @@
-# API em C# para criação e gerenciamento de tarefas
+# API in C# for task creation and management.
